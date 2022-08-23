@@ -1,6 +1,10 @@
 <?php
 require 'functions.php';
 $mahasiswa = query("SELECT * FROM mahasiswa");
+
+if(isset($_POST['cari'])){
+  $mahasiswa = cari($_POST['keyword']);
+}
 ?>
 
 <!DOCTYPE html>
@@ -16,6 +20,12 @@ $mahasiswa = query("SELECT * FROM mahasiswa");
 <body>
   <h3>Daftar Mahasiswa</h3>
   <br>
+  <form action="" method="post">
+    <input type="text" name="keyword" autocomplete="off" placeholder="Masukkan kata pencarian"
+      style="width:200px; margin-right: 5px;">
+    <button type="submit" name="cari">Cari!</button>
+  </form>
+  <br><br>
   <a href="tambah.php">Tambah data Mahasiswa</a> <br><br>
   <table border="1" cellpadding="10" cellspacing="0">
     <tr>
@@ -24,6 +34,15 @@ $mahasiswa = query("SELECT * FROM mahasiswa");
       <th>Nama</th>
       <th>Aksi</th>
     </tr>
+
+    <?php 
+    if(empty($mahasiswa)):
+    ?>
+    <tr>
+      <td colspan="4" style="font-style:italic; color:red;">Data mahasiswa yang anda cari tidak ada!</td>
+    </tr>
+    <?php endif; ?>
+
     <?php $no = 1; 
     foreach($mahasiswa as $m) : ?>
     <tr>
